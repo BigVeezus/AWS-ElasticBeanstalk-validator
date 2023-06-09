@@ -1,12 +1,18 @@
 const express = require("express");
 const app = express();
 const emailValidator = require("deep-email-validator");
-
+const dotenv = require("dotenv");
+dotenv.config();
+const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 async function isEmailValid(email) {
   return emailValidator.validate(email);
 }
+
+app.get("/", (req, res) => {
+  res.send("THIS IS HOME PAGE DEPLOYED TO AWS BEANSTALK");
+});
 
 app.post("/register", async function (req, res, next) {
   const { email, password, number } = req.body;
@@ -42,6 +48,6 @@ app.post("/register", async function (req, res, next) {
   });
 });
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log(`Server running on 8080`);
 });
